@@ -1,31 +1,17 @@
 return {
   {
     "stevearc/conform.nvim",
-    event = "BufWritePre", -- uncomment for format on save
-    config = function()
-      require "configs.conform"
-    end,
+    event = "BufWritePre",
+    opts = require "configs.conform",
   },
 
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
     end,
   },
-  {
-    "nvim-lua/completion-nvim",
-    config = function()
-      require("configs.lspconfig").pyls.setup {
-        on_attach = require("completion").on_attach,
-      }
-    end,
-  },
 
-  -- { "williamboman/mason-lspconfig.nvim" },
-  -- { "jay-babu/mason-null-ls.nvim" },
-  -- { "jay-babu/mason-nvim-dap.nvim" },
   {
     "williamboman/mason.nvim",
     opts = {
@@ -43,34 +29,25 @@ return {
     },
   },
 
-  -- { "nvimtools/none-ls.nvim" },
-
   {
     "karloskar/poetry-nvim",
+    ft = "python",
     config = function()
       require("poetry-nvim").setup()
     end,
   },
+
   {
     "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
+    event = "LspAttach",
     opts = {},
-    config = function(_, opts)
-      require("lsp_signature").setup(opts)
-    end,
   },
 
   {
     "max397574/better-escape.nvim",
+    event = "InsertEnter",
     config = function()
       require("better_escape").setup()
-    end,
-  },
-
-  {
-    "NvChad/nvterm",
-    config = function()
-      require("nvterm").setup()
     end,
   },
 
@@ -83,6 +60,9 @@ return {
         "vimdoc",
         "html",
         "css",
+        "python",
+        "javascript",
+        "typescript",
       },
     },
   },

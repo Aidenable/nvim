@@ -1,46 +1,37 @@
--- EXAMPLE
-local on_attach = require("nvchad.configs.lspconfig").on_attach
-local on_init = require("nvchad.configs.lspconfig").on_init
-local capabilities = require("nvchad.configs.lspconfig").capabilities
+local nvlsp = require "nvchad.configs.lspconfig"
 
-local lspconfig = require "lspconfig"
 local servers = {
   "html",
   "cssls",
   "eslint",
-  "pyre",
-  "quick_lint_js",
   "pyright",
-  "tsserver",
+  "ts_ls",
   "tailwindcss",
   "ruff",
-  "ruff_lsp",
 }
 
--- lsps with default config
+-- Default config for most servers
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    on_init = on_init,
-    capabilities = capabilities,
-  }
+  vim.lsp.config(lsp, {
+    capabilities = nvlsp.capabilities,
+    on_attach = nvlsp.on_attach,
+    on_init = nvlsp.on_init,
+  })
 end
 
--- typescript
-lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-}
-
--- auto python poetry shell
-lspconfig.pyright.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
+-- Pyright with poetry support
+vim.lsp.config.pyright = vim.tbl_deep_extend("force", vim.lsp.config.pyright, {
+  capabilities = nvlsp.capabilities,
+  on_attach = nvlsp.on_attach,
   on_new_config = function(config, root_dir)
     local env = vim.trim(vim.fn.system('cd "' .. root_dir .. '"; poetry env info -p 2>/dev/null'))
     if string.len(env) > 0 then
+      config.settings = config.settings or {}
+      config.settings.python = config.settings.python or {}
       config.settings.python.pythonPath = env .. "/bin/python"
     end
   end,
-}
+})
+
+-- Enable servers
+vim.lsp.enable(servers)

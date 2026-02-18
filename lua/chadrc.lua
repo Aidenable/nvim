@@ -1,55 +1,63 @@
--- This file  needs to have same structure as nvconfig.lua 
--- https://github.com/NvChad/NvChad/blob/v2.5/lua/nvconfig.lua
-
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = {
-	theme = "palenight",
+M.base46 = {
+  theme = "palenight",
   transparency = true,
+  
+  hl_override = {
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
+}
 
+M.ui = {
   statusline = {
     theme = "minimal",
     separator_style = "default",
   },
-
-  nvdash = {
-    load_on_startup = true,
-
-    header = {
-      "                                      ",
-      "       ░░                  ░░         ",
-      "       ░█░                ░▓░         ",
-      "       ░█▒░     ░██▒     ░▓░░         ",
-      "       ░▒░░░   ░█▒██▒    ▓░▒░         ",
-      "       ░░ ░▒░ ░▒░ ░██▒  ░░░▒          ",
-      "       ░█░░▒▓░░    ░██░░░ ░▒          ",
-      "       ░█░ ░▒▓      ░▓░░  ▒▒          ",
-      "        █▒ ▒█▒░      ░█░░ ▓░  ░       ",
-      "       ░█▒▓▓░█▓░░▒▒▓██▓▓▒░█▒░░        ",
-      "       ░█████▓██   ░█░ ░░░█░          ",
-      "        ░░    ▓█▒  ▓▒    ░░           ",
-      "              ░██▒░▓                  ",
-      "               ░███░                  ",
-      "                ░█▓                   ",
-      "                                      ",
-    },
-
-    buttons = {
-      { "  Start Working", "", "enew" },
-      { "  Recent Files", "Spc f o", "Telescope oldfiles" },
-      { "  Find File", "Spc f f", "Telescope find_files" },
-      { "󰑑  Find Word", "Spc f w", "Telescope live_grep" },
-      -- { "  Bookmarks", "Spc b m", "Telescope marks" },
-      -- { "  Themes", "Spc t h", "Telescope themes" },
-      { "  Mappings", "Spc n m", "NvCheatsheet" },
-    },
+  
+  tabufline = {
+    enabled = true,
   },
+}
 
-	hl_override = {
-		Comment = { italic = true },
-		["@comment"] = { italic = true },
-	},
+M.nvdash = {
+  load_on_startup = true,
+  header = {
+    "                                      ",
+    "       ░░                  ░░         ",
+    "       ░█░                ░▓░         ",
+    "       ░█▒░     ░██▒     ░▓░░         ",
+    "       ░▒░░░   ░█▒██▒    ▓░▒░         ",
+    "       ░░ ░▒░ ░▒░ ░██▒  ░░░▒          ",
+    "       ░█░░▒▓░░    ░██░░░ ░▒          ",
+    "       ░█░ ░▒▓      ░▓░░  ▒▒          ",
+    "        █▒ ▒█▒░      ░█░░ ▓░  ░       ",
+    "       ░█▒▓▓░█▓░░▒▒▓██▓▓▒░█▒░░        ",
+    "       ░█████▓██   ░█░ ░░░█░          ",
+    "        ░░    ▓█▒  ▓▒    ░░           ",
+    "              ░██▒░▓                  ",
+    "               ░███░                  ",
+    "                ░█▓                   ",
+    "                                      ",
+  },
+  buttons = {
+    { txt = "  Start Working", keys = "e", cmd = "enew" },
+    { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
+    { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
+    { txt = "󰑑  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+    { txt = "  Mappings", keys = "nm", cmd = "NvCheatsheet" },
+  },
+}
+
+M.lsp = { signature = true }
+
+M.colorify = {
+  enabled = true,
+  mode = "virtual",
+  virt_text = "󱓻 ",
+  highlight = { hex = true, lspvars = true },
 }
 
 return M
